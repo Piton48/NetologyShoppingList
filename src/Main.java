@@ -23,38 +23,17 @@ public class Main {
 
             switch (Integer.parseInt(input)) {
                 case (1):
-                    while (true) {
-                        System.out.println("Введите название товара, или end для завершения операции");
-                        String product = scanner.nextLine();
-                        if (product.equals("end")) break;
-                        basket.add(product);
-                    }
+                    addProsucts(basket,scanner);
                     break;
                 case (2):
                     showShoppingList(basket);
                     break;
                 case (3):
                     showShoppingList(basket);
-                    System.out.println("Какой товар хотите удалить? Введите номер или название");
-                    input = scanner.nextLine();
-                    try {
-                        if (Integer.parseInt(input) > 0 & Integer.parseInt(input) < basket.size())
-                            basket.remove(Integer.parseInt(input) - 1);
-                    } catch (NumberFormatException e) {
-                        Iterator<String> b = basket.iterator();
-                        while (b.hasNext()) {
-                            if (input.equals(b.next())) b.remove();
-                        }
-                    }
+                    removeProduct(basket,scanner);
                     break;
                 case (4):
-                    System.out.println("Введите текст для поиска");
-                    input = scanner.nextLine().toLowerCase();
-                    System.out.println("Найдено:");
-                    for (int i = 0; i < basket.size(); i++) {
-                        if (basket.get(i).toLowerCase().contains(input))
-                            System.out.println((i + 1) + ". " + basket.get(i));
-                    }
+                    serchProduct(basket,scanner);
                     break;
                 default:
                     System.out.println("Некорректные данные! Попробуйте еще раз.");
@@ -66,6 +45,39 @@ public class Main {
         System.out.println("Список покупок:");
         for (int i = 0; i < basket.size(); i++) {
             System.out.println((i + 1) + ". " + basket.get(i));
+        }
+    }
+
+    public static void addProsucts(List<String> basket, Scanner scanner) {
+        while (true) {
+            System.out.println("Введите название товара, или end для завершения операции");
+            String product = scanner.nextLine();
+            if (product.equals("end")) break;
+            basket.add(product);
+        }
+    }
+
+    public static void removeProduct(List<String> basket, Scanner scanner){
+        System.out.println("Какой товар хотите удалить? Введите номер или название");
+        String input = scanner.nextLine();
+        try {
+            if (Integer.parseInt(input) > 0 & Integer.parseInt(input) < basket.size())
+                basket.remove(Integer.parseInt(input) - 1);
+        } catch (NumberFormatException e) {
+            Iterator<String> b = basket.iterator();
+            while (b.hasNext()) {
+                if (input.equals(b.next())) b.remove();
+            }
+        }
+    }
+
+    public static void serchProduct(List<String> basket, Scanner scanner){
+        System.out.println("Введите текст для поиска");
+        String input = scanner.nextLine().toLowerCase();
+        System.out.println("Найдено:");
+        for (int i = 0; i < basket.size(); i++) {
+            if (basket.get(i).toLowerCase().contains(input))
+                System.out.println((i + 1) + ". " + basket.get(i));
         }
     }
 }
